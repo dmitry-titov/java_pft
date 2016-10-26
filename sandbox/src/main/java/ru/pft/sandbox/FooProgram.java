@@ -11,8 +11,6 @@ public class FooProgram {
     p2.x = -4.0;
     p2.y = 9.1;
 
-//		Point p3 = new Point(5.1, 0.9);
-//		Point p4 = new Point(2.1, -6.7);
     Point p3 = new Point(6.0, 1.1);
     Point p4 = new Point(-4.0, 9.1);
 

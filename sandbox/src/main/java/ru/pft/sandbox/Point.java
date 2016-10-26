@@ -20,7 +20,7 @@ public class Point {
     return Math.sqrt(differencePow(p.x, this.x) + (differencePow(p.y, this.y)));
   }
 
-  public double differencePow(double a, double b){
+  private double differencePow(double a, double b){
     return Math.pow(a - b, 2);
   }
 }
