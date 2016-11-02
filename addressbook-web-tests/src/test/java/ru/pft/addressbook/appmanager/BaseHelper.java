@@ -1,17 +1,15 @@
 package ru.pft.addressbook.appmanager;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BaseHelper {
 
-    protected ChromeDriver wd;
+    private ChromeDriver wd;
     private Wait<WebDriver> wait;
 
     public BaseHelper(ChromeDriver wd) {
@@ -24,19 +22,17 @@ public class BaseHelper {
     }
 
     protected void type(By locator, String text) {
-        click(locator);
-        wd.findElement(locator).clear();
-        wd.findElement(locator).sendKeys(text);
+        WebElement webElement = findElement(locator);
+        webElement.clear();
+        webElement.sendKeys(text);
     }
 
-    protected void selectOption(By locator) {
-        if (!isSelected(locator)) {
-            click(locator);
-        }
+    protected void selectOption(By locator, String text) {
+        new Select(findElement(locator)).selectByVisibleText(text);
     }
 
-    protected boolean isSelected(By locator) {
-        return wd.findElement(locator).isSelected();
+    protected WebElement findElement(By locator) {
+        return wd.findElement(locator);
     }
 
     protected void confirmAlert() {

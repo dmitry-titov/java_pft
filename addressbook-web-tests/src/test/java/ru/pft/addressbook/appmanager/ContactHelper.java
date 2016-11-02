@@ -11,7 +11,7 @@ public class ContactHelper extends BaseHelper {
     }
 
     public void submitContactForm() {
-        click(By.xpath("//div[@id='content']/form/input[21]"));
+        click(By.name("submit"));
     }
 
     public void fillContactForm(ContactData contactData) {
@@ -22,8 +22,8 @@ public class ContactHelper extends BaseHelper {
         type(By.name("mobile"), contactData.getMobile());
         type(By.name("email"), contactData.getEmail());
 
-        selectOption(By.xpath("//select[@name='bday']/option[@value='" + contactData.getBday() + "']"));
-        selectOption(By.xpath("//select[@name='bmonth']/option[@value='" + contactData.getBmonth() + "']"));
+        selectOption(By.name("bday"), contactData.getBday());
+        selectOption(By.name("bmonth"), contactData.getBmonth());
         type(By.name("byear"), contactData.getByear());
     }
 
