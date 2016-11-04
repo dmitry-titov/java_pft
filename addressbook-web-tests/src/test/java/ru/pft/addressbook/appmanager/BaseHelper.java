@@ -1,7 +1,6 @@
 package ru.pft.addressbook.appmanager;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
@@ -9,10 +8,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BaseHelper {
 
-    private ChromeDriver wd;
+    private WebDriver wd;
     private Wait<WebDriver> wait;
 
-    public BaseHelper(ChromeDriver wd) {
+    public BaseHelper(WebDriver wd) {
         this.wd = wd;
         this.wait = new WebDriverWait(wd, 5, 100).ignoring(StaleElementReferenceException.class);
     }

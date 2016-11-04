@@ -1,12 +1,12 @@
 package ru.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.WebDriver;
 import ru.pft.addressbook.model.GroupData;
 
 public class GroupHelper extends BaseHelper {
 
-    public GroupHelper(ChromeDriver wd) {
+    public GroupHelper(WebDriver wd) {
         super(wd);
     }
 
