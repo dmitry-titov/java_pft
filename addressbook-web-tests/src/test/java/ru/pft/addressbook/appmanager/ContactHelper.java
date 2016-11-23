@@ -2,6 +2,7 @@ package ru.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import ru.pft.addressbook.model.ContactData;
 
 public class ContactHelper extends BaseHelper {
@@ -14,7 +15,7 @@ public class ContactHelper extends BaseHelper {
         click(By.name("submit"));
     }
 
-    public void fillContactForm(ContactData contactData) {
+    public void fillContactForm(ContactData contactData, boolean creation) {
         type(By.name("firstname"), contactData.getFirstName());
         type(By.name("middlename"), contactData.getMiddleName());
         type(By.name("lastname"), contactData.getLastName());
@@ -25,6 +26,12 @@ public class ContactHelper extends BaseHelper {
         selectOption(By.name("bday"), contactData.getBday());
         selectOption(By.name("bmonth"), contactData.getBmonth());
         type(By.name("byear"), contactData.getByear());
+
+        if (creation) {
+            selectOption(By.name("new_group"), contactData.getGroup());
+        } else {
+            Assert.assertFalse(isElementPresent(By.name("new_group")));
+        }
     }
 
     public void returnToContactsPage() {

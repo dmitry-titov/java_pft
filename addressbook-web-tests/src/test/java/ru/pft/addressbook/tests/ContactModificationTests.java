@@ -17,12 +17,11 @@ public class ContactModificationTests extends TestBase {
                         "modifyNickname",
                         "89211111234",
                         "modify@test.com",
-                        "10",
+                        "11",
                         "May",
-                        "1988"));
+                        "1988", null), false);
         app.getContactHelper().submitContactUpdate();
         app.getContactHelper().returnToContactsPage();
-
     }
 
     @Test
@@ -38,7 +37,7 @@ public class ContactModificationTests extends TestBase {
                         "modify@test.com",
                         "10",
                         "May",
-                        "1988"));
+                        "1988", null), false);
         app.getContactHelper().submitContactUpdate();
         app.getContactHelper().returnToContactsPage();
     }
