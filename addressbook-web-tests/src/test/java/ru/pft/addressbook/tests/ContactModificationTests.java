@@ -8,6 +8,19 @@ public class ContactModificationTests extends TestBase {
     @Test
     public void contactModificationThroughDetailsTest() {
         app.getNavigationHelper().gotoContactsPage();
+        if (!app.getContactHelper().isThereContact()) {
+            app.getNavigationHelper().gotoNewContactForm();
+            app.getContactHelper().createContact(new ContactData(
+                    "testName",
+                    "testMiddleName",
+                    "testLastName",
+                    "testNickname",
+                    "89285681010",
+                    "test@test.com",
+                    "7",
+                    "April",
+                    "1977", null), true);
+        }
         app.getContactHelper().viewDetailsContact();
         app.getContactHelper().modifyContactInDetailsPage();
         app.getContactHelper().fillContactForm(
@@ -27,6 +40,19 @@ public class ContactModificationTests extends TestBase {
     @Test
     public void contactModificationThroughEditButtonTest() {
         app.getNavigationHelper().gotoContactsPage();
+        if (!app.getContactHelper().isThereContact()) {
+            app.getNavigationHelper().gotoNewContactForm();
+            app.getContactHelper().createContact(new ContactData(
+                    "testName",
+                    "testMiddleName",
+                    "testLastName",
+                    "testNickname",
+                    "89285681010",
+                    "test@test.com",
+                    "7",
+                    "April",
+                    "1977", null), true);
+        }
         app.getContactHelper().modifyContact();
         app.getContactHelper().fillContactForm(
                 new ContactData("modifyName",

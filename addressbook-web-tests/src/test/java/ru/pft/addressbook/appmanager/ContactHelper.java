@@ -60,9 +60,21 @@ public class ContactHelper extends BaseHelper {
 
     public void initDeleteContact() {
         click(By.cssSelector("input[value='Delete']"));
+        waitTextOnPage(By.xpath("//div[@id='content']/h1"), "Delete record");
     }
 
     public void confirmDeleteContact() {
         confirmAlert();
+        waitTextOnPage(By.xpath("//div[@id='content']/h1"), "Delete record");
+    }
+
+    public void createContact(ContactData contactData, boolean creation) {
+        fillContactForm(contactData, creation);
+        submitContactForm();
+        returnToContactsPage();
+    }
+
+    public boolean isThereContact() {
+        return isElementPresent(By.name("selected[]"));
     }
 }

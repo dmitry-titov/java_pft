@@ -54,6 +54,10 @@ public class BaseHelper {
         wait.until(ExpectedConditions.alertIsPresent()).accept();
     }
 
+    protected void waitTextOnPage(By locator, String text) {
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
+    }
+
     protected String getValue(WebElement element) {
         return element.getAttribute("value");
     }
