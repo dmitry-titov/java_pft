@@ -2,8 +2,12 @@ package ru.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import ru.pft.addressbook.model.ContactData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends BaseHelper {
 
@@ -38,12 +42,12 @@ public class ContactHelper extends BaseHelper {
         click(By.linkText("home page"));
     }
 
-    public void selectContact() {
-        click(By.name("selected[]"));
+    public void selectContact(int index) {
+        click(findElements(By.name("selected[]")).get(index));
     }
 
-    public void viewDetailsContact() {
-        click(By.cssSelector("tr[name='entry'] > td:nth-child(7)"));
+    public void viewDetailsContact(int index) {
+        click(findElements(By.cssSelector("tr[name='entry'] > td:nth-child(7)")).get(index));
     }
 
     public void modifyContactInDetailsPage() {
@@ -54,8 +58,8 @@ public class ContactHelper extends BaseHelper {
         click(By.name("update"));
     }
 
-    public void modifyContact() {
-        click(By.cssSelector("tr[name='entry'] > td:nth-child(8)"));
+    public void modifyContact(int index) {
+        click(findElements(By.cssSelector("tr[name='entry'] > td:nth-child(8)")).get(index));
     }
 
     public void initDeleteContact() {
@@ -80,5 +84,18 @@ public class ContactHelper extends BaseHelper {
 
     public boolean isThereContact() {
         return isElementPresent(By.name("selected[]"));
+    }
+
+    public List<ContactData> getContactList() {
+        List<ContactData> contacts = new ArrayList<ContactData>();
+        List<WebElement> elements = findElements(By.cssSelector("tr[name='entry']"));
+        for (WebElement element : elements) {
+            String lastName = element.findElement(By.cssSelector("td:nth-child(2)")).getText();
+            String firstName = element.findElement(By.cssSelector("td:nth-child(3)")).getText();
+            int id = Integer.parseInt(element.findElement(By.cssSelector("td:nth-child(1)> input")).getAttribute("id"));
+            ContactData contact = new ContactData(id, firstName, null, lastName, null, null, null, null, null, null, null);
+            contacts.add(contact);
+        }
+        return contacts;
     }
 }

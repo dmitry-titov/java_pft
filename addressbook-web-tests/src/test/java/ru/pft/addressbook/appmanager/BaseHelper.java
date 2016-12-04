@@ -23,6 +23,10 @@ public class BaseHelper {
         wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
 
+    protected void click(WebElement element) {
+        wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+    }
+
     protected void type(By locator, String text) {
         if (text != null) {
             WebElement webElement = findElement(locator);

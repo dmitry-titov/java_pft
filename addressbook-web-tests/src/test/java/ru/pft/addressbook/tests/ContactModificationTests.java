@@ -1,7 +1,10 @@
 package ru.pft.addressbook.tests;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.pft.addressbook.model.ContactData;
+
+import java.util.List;
 
 public class ContactModificationTests extends TestBase {
 
@@ -21,20 +24,30 @@ public class ContactModificationTests extends TestBase {
                     "April",
                     "1977", null), true);
         }
-        app.getContactHelper().viewDetailsContact();
+        List<ContactData> before = app.getContactHelper().getContactList();
+        int lastIdx = before.size() - 1;
+        app.getContactHelper().viewDetailsContact(lastIdx);
         app.getContactHelper().modifyContactInDetailsPage();
-        app.getContactHelper().fillContactForm(
-                new ContactData("modifyName",
-                        "modifyMiddleName",
-                        "modifyLastName",
-                        "modifyNickname",
-                        "89211111234",
-                        "modify@test.com",
-                        "11",
-                        "May",
-                        "1988", null), false);
+        ContactData contact = new ContactData(before.get(lastIdx).getId(),
+                "modifyName",
+                "modifyMiddleName",
+                "modifyLastName",
+                "modifyNickname",
+                "89211111234",
+                "modify@test.com",
+                "11",
+                "May",
+                "1988", null);
+        app.getContactHelper().fillContactForm(contact, false);
         app.getContactHelper().submitContactUpdate();
         app.getContactHelper().returnToContactsPage();
+
+        List<ContactData> after = app.getContactHelper().getContactList();
+        before.remove(lastIdx);
+        before.add(contact);
+        before.sort((c1, c2) -> Integer.compare(c1.getId(), c2.getId()));
+        after.sort((c1, c2) -> Integer.compare(c1.getId(), c2.getId()));
+        Assert.assertEquals(after, before);
     }
 
     @Test
@@ -53,18 +66,30 @@ public class ContactModificationTests extends TestBase {
                     "April",
                     "1977", null), true);
         }
-        app.getContactHelper().modifyContact();
-        app.getContactHelper().fillContactForm(
-                new ContactData("modifyName",
-                        "modifyMiddleName",
-                        "modifyLastName",
-                        "modifyNickname",
-                        "89211111234",
-                        "modify@test.com",
-                        "10",
-                        "May",
-                        "1988", null), false);
+
+        List<ContactData> before = app.getContactHelper().getContactList();
+        int firstIdx = 0;
+
+        app.getContactHelper().modifyContact(firstIdx);
+        ContactData contact = new ContactData(before.get(firstIdx).getId(),
+                "modifyName",
+                "modifyMiddleName",
+                "modifyLastName",
+                "modifyNickname",
+                "89211111234",
+                "modify@test.com",
+                "11",
+                "May",
+                "1988", null);
+        app.getContactHelper().fillContactForm(contact, false);
         app.getContactHelper().submitContactUpdate();
         app.getContactHelper().returnToContactsPage();
+
+        List<ContactData> after = app.getContactHelper().getContactList();
+        before.remove(firstIdx);
+        before.add(contact);
+        before.sort((c1, c2) -> Integer.compare(c1.getId(), c2.getId()));
+        after.sort((c1, c2) -> Integer.compare(c1.getId(), c2.getId()));
+        Assert.assertEquals(after, before);
     }
 }
