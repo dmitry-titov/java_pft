@@ -60,6 +60,10 @@ public class ContactHelper extends BaseHelper {
 
     public void initDeleteContact() {
         click(By.cssSelector("input[value='Delete']"));
+    }
+
+    public void initDeleteContactAndWait() {
+        click(By.cssSelector("input[value='Delete']"));
         waitTextOnPage(By.xpath("//div[@id='content']/h1"), "Delete record");
     }
 

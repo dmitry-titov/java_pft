@@ -43,6 +43,6 @@ public class ContactDeleteTests extends TestBase {
                     "1977", null), true);
         }
         app.getContactHelper().modifyContact();
-        app.getContactHelper().initDeleteContact();
+        app.getContactHelper().initDeleteContactAndWait();
     }
 }
