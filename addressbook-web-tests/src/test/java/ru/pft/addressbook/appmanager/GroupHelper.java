@@ -4,8 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.pft.addressbook.model.GroupData;
+import ru.pft.addressbook.model.Groups;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GroupHelper extends BaseHelper {
@@ -36,8 +36,8 @@ public class GroupHelper extends BaseHelper {
         click(By.name("delete"));
     }
 
-    public void selectGroup(int index) {
-        click(findElements(By.cssSelector("span.group")).get(index));
+    public void selectGroupById(int id) {
+        click(findElement(By.cssSelector("input[value ='" + id + "']")));
     }
 
     public void initGroupModification() {
@@ -48,10 +48,24 @@ public class GroupHelper extends BaseHelper {
         click(By.name("update"));
     }
 
-    public void createGroup(GroupData group) {
+    public void create(GroupData group) {
         initCreateGroup();
         fillGroupForm(group);
         submitGroupForm();
+        returnToGroupsPage();
+    }
+
+    public void modify(GroupData group) {
+        selectGroupById(group.getId());
+        initGroupModification();
+        fillGroupForm(group);
+        submitGroupModify();
+        returnToGroupsPage();
+    }
+
+    public void delete(GroupData group) {
+        selectGroupById(group.getId());
+        deleteSelectedGroup();
         returnToGroupsPage();
     }
 
@@ -63,13 +77,12 @@ public class GroupHelper extends BaseHelper {
         return findElements(By.cssSelector("span.group")).size();
     }
 
-    public List<GroupData> getGroupList() {
-        List<GroupData> groups = new ArrayList<GroupData>();
+    public Groups all() {
+        Groups groups = new Groups();
         List<WebElement> elements = findElements(By.cssSelector("span.group"));
         for (WebElement element : elements) {
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            GroupData group = new GroupData(id, element.getText(), null, null);
-            groups.add(group);
+            groups.add(new GroupData().withId(id).withName(element.getText()));
         }
         return groups;
     }

@@ -1,49 +1,17 @@
 package ru.pft.addressbook.model;
 
 public class ContactData {
-    private int id;
-    private final String firstName;
-    private final String middleName;
-    private final String lastName;
-    private final String nickname;
-    private final String mobile;
-    private final String email;
-    private final String bday;
-    private final String bmonth;
-    private final String byear;
-    private final String group;
-
-    public ContactData(String firstName, String middleName, String lastName,
-                       String nickname, String mobile, String email,
-                       String bday, String bmonth, String byear, String group) {
-        this.id = Integer.MAX_VALUE;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.nickname = nickname;
-        this.mobile = mobile;
-        this.email = email;
-        this.bday = bday;
-        this.bmonth = bmonth;
-        this.byear = byear;
-        this.group = group;
-    }
-
-    public ContactData(int id, String firstName, String middleName, String lastName,
-                       String nickname, String mobile, String email,
-                       String bday, String bmonth, String byear, String group) {
-        this.id = id;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.nickname = nickname;
-        this.mobile = mobile;
-        this.email = email;
-        this.bday = bday;
-        this.bmonth = bmonth;
-        this.byear = byear;
-        this.group = group;
-    }
+    private int id = Integer.MAX_VALUE;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String nickname;
+    private String mobile;
+    private String email;
+    private String bday;
+    private String bmonth;
+    private String byear;
+    private String group;
 
     public String getFirstName() {
         return firstName;
@@ -89,8 +57,59 @@ public class ContactData {
         return id;
     }
 
-    public void setId(int id) {
+    public ContactData withId(int id) {
         this.id = id;
+        return this;
+    }
+
+    public ContactData withFirstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
+    public ContactData withMiddleName(String middleName) {
+        this.middleName = middleName;
+        return this;
+    }
+
+    public ContactData withLastName(String lastName) {
+        this.lastName = lastName;
+        return this;
+    }
+
+    public ContactData withNickname(String nickname) {
+        this.nickname = nickname;
+        return this;
+    }
+
+    public ContactData withMobile(String mobile) {
+        this.mobile = mobile;
+        return this;
+    }
+
+    public ContactData withEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public ContactData withBday(String bday) {
+        this.bday = bday;
+        return this;
+    }
+
+    public ContactData withBmonth(String bmonth) {
+        this.bmonth = bmonth;
+        return this;
+    }
+
+    public ContactData withByear(String byear) {
+        this.byear = byear;
+        return this;
+    }
+
+    public ContactData withGroup(String group) {
+        this.group = group;
+        return this;
     }
 
     @Override
@@ -108,13 +127,16 @@ public class ContactData {
 
         ContactData that = (ContactData) o;
 
-        return firstName != null ? firstName.equals(that.firstName) : that.firstName == null && (lastName != null ? lastName.equals(that.lastName) : that.lastName == null);
+        if (id != that.id) return false;
+        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
+        return lastName != null ? lastName.equals(that.lastName) : that.lastName == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = firstName != null ? firstName.hashCode() : 0;
+        int result = id;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         return result;
     }

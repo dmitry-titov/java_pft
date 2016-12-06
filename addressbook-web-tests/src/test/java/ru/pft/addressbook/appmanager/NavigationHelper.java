@@ -9,21 +9,21 @@ public class NavigationHelper extends BaseHelper {
         super(wd);
     }
 
-    public void gotoNewContactForm() {
+    public void newContactForm() {
         if (isPageCurrent(By.tagName("h1"), "Edit / add address book entry", By.name("submit"))) {
             return;
         }
         click(By.linkText("add new"));
     }
 
-    public void gotoGroupsPage() {
+    public void groupsPage() {
         if (isPageCurrent(By.tagName("h1"), "Groups", By.name("new"))) {
             return;
         }
         click(By.linkText("groups"));
     }
 
-    public void gotoContactsPage() {
+    public void contactsPage() {
         if (isPageCurrent(By.xpath("//label/strong"), "Number of results: ", By.id("search-az"))) {
             return;
         }

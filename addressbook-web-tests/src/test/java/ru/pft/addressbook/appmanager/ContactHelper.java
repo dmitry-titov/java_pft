@@ -5,8 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import ru.pft.addressbook.model.ContactData;
+import ru.pft.addressbook.model.Contacts;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContactHelper extends BaseHelper {
@@ -42,15 +42,15 @@ public class ContactHelper extends BaseHelper {
         click(By.linkText("home page"));
     }
 
-    public void selectContact(int index) {
-        click(findElements(By.name("selected[]")).get(index));
+    public void selectById(int id) {
+        click(findElement(By.cssSelector("input[value= '" + id + "']")));
     }
 
-    public void viewDetailsContact(int index) {
-        click(findElements(By.cssSelector("tr[name='entry'] > td:nth-child(7)")).get(index));
+    public void viewDetailsById(int id) {
+        click(findElement(By.cssSelector("a[href='view.php?id=" + id + "']")));
     }
 
-    public void modifyContactInDetailsPage() {
+    public void modifyOnDetailsPage() {
         click(By.name("modifiy"));
     }
 
@@ -58,42 +58,55 @@ public class ContactHelper extends BaseHelper {
         click(By.name("update"));
     }
 
-    public void modifyContact(int index) {
-        click(findElements(By.cssSelector("tr[name='entry'] > td:nth-child(8)")).get(index));
+    public void modifyContactById(int id) {
+        click(findElement(By.cssSelector("a[href='edit.php?id=" + id + "']")));
     }
 
-    public void initDeleteContact() {
+    public void modify(ContactData contact) {
+        fillContactForm(contact, false);
+        submitContactUpdate();
+        returnToContactsPage();
+    }
+
+    public void initDelete() {
         click(By.cssSelector("input[value='Delete']"));
     }
 
-    public void initDeleteContactAndWait() {
+    public void initDeleteAndWait() {
         click(By.cssSelector("input[value='Delete']"));
         waitTextOnPage(By.xpath("//div[@id='content']/h1"), "Delete record");
     }
 
-    public void confirmDeleteContact() {
+    public void confirmDelete() {
         confirmAlert();
         waitTextOnPage(By.xpath("//div[@id='content']/h1"), "Delete record");
     }
 
-    public void createContact(ContactData contactData, boolean creation) {
+    public void create(ContactData contactData, boolean creation) {
         fillContactForm(contactData, creation);
         submitContactForm();
         returnToContactsPage();
+    }
+
+    public void delete(ContactData contact) {
+        selectById(contact.getId());
+        initDelete();
+        confirmDelete();
     }
 
     public boolean isThereContact() {
         return isElementPresent(By.name("selected[]"));
     }
 
-    public List<ContactData> getContactList() {
-        List<ContactData> contacts = new ArrayList<ContactData>();
+    public Contacts all() {
+        Contacts contacts = new Contacts();
         List<WebElement> elements = findElements(By.cssSelector("tr[name='entry']"));
         for (WebElement element : elements) {
             String lastName = element.findElement(By.cssSelector("td:nth-child(2)")).getText();
             String firstName = element.findElement(By.cssSelector("td:nth-child(3)")).getText();
             int id = Integer.parseInt(element.findElement(By.cssSelector("td:nth-child(1)> input")).getAttribute("id"));
-            ContactData contact = new ContactData(id, firstName, null, lastName, null, null, null, null, null, null, null);
+            ContactData contact = new ContactData()
+                    .withId(id).withFirstName(firstName).withLastName(lastName);
             contacts.add(contact);
         }
         return contacts;
