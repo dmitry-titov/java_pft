@@ -23,7 +23,7 @@ public class ContactCreateTests extends TestBase {
                 .withBday("7")
                 .withBmonth("April")
                 .withByear("1977");
-        app.contact().create(contact, true);
+        app.contact().create(contact);
 
         Contacts after = app.contact().all();
         assertThat(after, equalTo(before

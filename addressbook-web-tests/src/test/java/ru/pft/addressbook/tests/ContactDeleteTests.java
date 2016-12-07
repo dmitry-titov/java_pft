@@ -25,7 +25,7 @@ public class ContactDeleteTests extends TestBase {
                     .withBday("7")
                     .withBmonth("April")
                     .withByear("1977");
-            app.contact().create(contact, true);
+            app.contact().create(contact);
         }
     }
 

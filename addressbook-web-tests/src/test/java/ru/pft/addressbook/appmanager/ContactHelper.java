@@ -3,11 +3,15 @@ package ru.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import ru.pft.addressbook.model.ContactData;
 import ru.pft.addressbook.model.Contacts;
 
 import java.util.List;
+
+import static org.openqa.selenium.By.cssSelector;
+import static org.openqa.selenium.By.name;
+import static org.openqa.selenium.By.xpath;
+import static org.testng.Assert.assertFalse;
 
 public class ContactHelper extends BaseHelper {
 
@@ -16,25 +20,25 @@ public class ContactHelper extends BaseHelper {
     }
 
     public void submitContactForm() {
-        click(By.name("submit"));
+        click(name("submit"));
     }
 
-    public void fillContactForm(ContactData contactData, boolean creation) {
-        type(By.name("firstname"), contactData.getFirstName());
-        type(By.name("middlename"), contactData.getMiddleName());
-        type(By.name("lastname"), contactData.getLastName());
-        type(By.name("nickname"), contactData.getNickname());
-        type(By.name("mobile"), contactData.getMobile());
-        type(By.name("email"), contactData.getEmail());
+    public void fillContactForm(ContactData contactData) {
+        type(name("firstname"), contactData.getFirstName());
+        type(name("middlename"), contactData.getMiddleName());
+        type(name("lastname"), contactData.getLastName());
+        type(name("nickname"), contactData.getNickname());
+        type(name("mobile"), contactData.getMobile());
+        type(name("email"), contactData.getEmail());
 
-        selectOption(By.name("bday"), contactData.getBday());
-        selectOption(By.name("bmonth"), contactData.getBmonth());
-        type(By.name("byear"), contactData.getByear());
+        selectOption(name("bday"), contactData.getBday());
+        selectOption(name("bmonth"), contactData.getBmonth());
+        type(name("byear"), contactData.getByear());
 
-        if (creation) {
-            selectOption(By.name("new_group"), contactData.getGroup());
+        if (getValue(findElements(xpath("//input[@type=\"submit\"]")).get(0)).equals("Enter")) {
+            selectOption(name("new_group"), contactData.getGroup());
         } else {
-            Assert.assertFalse(isElementPresent(By.name("new_group")));
+            assertFalse(isElementPresent(name("new_group")));
         }
     }
 
@@ -43,47 +47,47 @@ public class ContactHelper extends BaseHelper {
     }
 
     public void selectById(int id) {
-        click(findElement(By.cssSelector("input[value= '" + id + "']")));
+        click(findElement(cssSelector("input[value= '" + id + "']")));
     }
 
     public void viewDetailsById(int id) {
-        click(findElement(By.cssSelector("a[href='view.php?id=" + id + "']")));
+        click(findElement(cssSelector("a[href='view.php?id=" + id + "']")));
     }
 
     public void modifyOnDetailsPage() {
-        click(By.name("modifiy"));
+        click(name("modifiy"));
     }
 
     public void submitContactUpdate() {
-        click(By.name("update"));
+        click(name("update"));
     }
 
     public void modifyContactById(int id) {
-        click(findElement(By.cssSelector("a[href='edit.php?id=" + id + "']")));
+        click(findElement(cssSelector("a[href='edit.php?id=" + id + "']")));
     }
 
     public void modify(ContactData contact) {
-        fillContactForm(contact, false);
+        fillContactForm(contact);
         submitContactUpdate();
         returnToContactsPage();
     }
 
     public void initDelete() {
-        click(By.cssSelector("input[value='Delete']"));
+        click(cssSelector("input[value='Delete']"));
     }
 
     public void initDeleteAndWait() {
-        click(By.cssSelector("input[value='Delete']"));
-        waitTextOnPage(By.xpath("//div[@id='content']/h1"), "Delete record");
+        click(cssSelector("input[value='Delete']"));
+        waitTextOnPage(xpath("//div[@id='content']/h1"), "Delete record");
     }
 
     public void confirmDelete() {
         confirmAlert();
-        waitTextOnPage(By.xpath("//div[@id='content']/h1"), "Delete record");
+        waitTextOnPage(xpath("//div[@id='content']/h1"), "Delete record");
     }
 
-    public void create(ContactData contactData, boolean creation) {
-        fillContactForm(contactData, creation);
+    public void create(ContactData contactData) {
+        fillContactForm(contactData);
         submitContactForm();
         returnToContactsPage();
     }
@@ -95,16 +99,16 @@ public class ContactHelper extends BaseHelper {
     }
 
     public boolean isThereContact() {
-        return isElementPresent(By.name("selected[]"));
+        return isElementPresent(name("selected[]"));
     }
 
     public Contacts all() {
         Contacts contacts = new Contacts();
-        List<WebElement> elements = findElements(By.cssSelector("tr[name='entry']"));
+        List<WebElement> elements = findElements(cssSelector("tr[name='entry']"));
         for (WebElement element : elements) {
-            String lastName = element.findElement(By.cssSelector("td:nth-child(2)")).getText();
-            String firstName = element.findElement(By.cssSelector("td:nth-child(3)")).getText();
-            int id = Integer.parseInt(element.findElement(By.cssSelector("td:nth-child(1)> input")).getAttribute("id"));
+            String lastName = element.findElement(cssSelector("td:nth-child(2)")).getText();
+            String firstName = element.findElement(cssSelector("td:nth-child(3)")).getText();
+            int id = Integer.parseInt(element.findElement(cssSelector("td:nth-child(1)> input")).getAttribute("id"));
             ContactData contact = new ContactData()
                     .withId(id).withFirstName(firstName).withLastName(lastName);
             contacts.add(contact);
