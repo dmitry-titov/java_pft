@@ -15,6 +15,8 @@ import static org.testng.Assert.assertFalse;
 
 public class ContactHelper extends BaseHelper {
 
+    private Contacts contactCache = null;
+
     public ContactHelper(WebDriver wd) {
         super(wd);
     }
@@ -28,7 +30,7 @@ public class ContactHelper extends BaseHelper {
         type(name("middlename"), contactData.getMiddleName());
         type(name("lastname"), contactData.getLastName());
         type(name("nickname"), contactData.getNickname());
-        type(name("mobile"), contactData.getMobile());
+        type(name("mobile"), contactData.getMobilePhone());
         type(name("email"), contactData.getEmail());
 
         selectOption(name("bday"), contactData.getBday());
@@ -69,6 +71,7 @@ public class ContactHelper extends BaseHelper {
     public void modify(ContactData contact) {
         fillContactForm(contact);
         submitContactUpdate();
+        contactCache = null;
         returnToContactsPage();
     }
 
@@ -89,6 +92,7 @@ public class ContactHelper extends BaseHelper {
     public void create(ContactData contactData) {
         fillContactForm(contactData);
         submitContactForm();
+        contactCache = null;
         returnToContactsPage();
     }
 
@@ -96,23 +100,65 @@ public class ContactHelper extends BaseHelper {
         selectById(contact.getId());
         initDelete();
         confirmDelete();
+        contactCache = null;
     }
 
     public boolean isThereContact() {
         return isElementPresent(name("selected[]"));
     }
 
+    public int count() {
+        return findElements(By.cssSelector("tr[name='entry']")).size();
+    }
+
+    public ContactData infoFromEditForm(ContactData contact) {
+        modifyContactById(contact.getId());
+        String firstName = getValue(findElement(name("firstname")));
+        String lastName = getValue(findElement(name("lastname")));
+        String home = getValue(findElement(name("home")));
+        String mobile = getValue(findElement(name("mobile")));
+        String work = getValue(findElement(name("work")));
+
+        String email1 = getValue(findElement(name("email")));
+        String email2 = getValue(findElement(name("email2")));
+        String email3 = getValue(findElement(name("email3")));
+
+        String address = getValue(findElement(name("address")));
+
+        backToPage();
+        return new ContactData().withId(contact.getId())
+                .withFirstName(firstName)
+                .withLastName(lastName)
+                .withHome(home)
+                .withMobile(mobile)
+                .withWork(work)
+                .withEmail(email1)
+                .withEmail2(email2)
+                .withEmail3(email3)
+                .withAddress(address);
+    }
+
     public Contacts all() {
-        Contacts contacts = new Contacts();
+        if (contactCache != null) {
+            return new Contacts(contactCache);
+        }
+        contactCache = new Contacts();
         List<WebElement> elements = findElements(cssSelector("tr[name='entry']"));
         for (WebElement element : elements) {
             String lastName = element.findElement(cssSelector("td:nth-child(2)")).getText();
             String firstName = element.findElement(cssSelector("td:nth-child(3)")).getText();
+            String address = element.findElement(cssSelector("td:nth-child(4)")).getText();
+            String allEmails = element.findElement(cssSelector("td:nth-child(5)")).getText();
+            String allPhones = element.findElement(cssSelector("td:nth-child(6)")).getText();
+
             int id = Integer.parseInt(element.findElement(cssSelector("td:nth-child(1)> input")).getAttribute("id"));
             ContactData contact = new ContactData()
-                    .withId(id).withFirstName(firstName).withLastName(lastName);
-            contacts.add(contact);
+                    .withId(id).withFirstName(firstName).withLastName(lastName)
+                    .withAllPhones(allPhones)
+                    .withAllEmails(allEmails)
+                    .withAddress(address);
+            contactCache.add(contact);
         }
-        return contacts;
+        return new Contacts(contactCache);
     }
 }

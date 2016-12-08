@@ -10,6 +10,8 @@ import java.util.List;
 
 public class GroupHelper extends BaseHelper {
 
+    private Groups groupCache = null;
+
     public GroupHelper(WebDriver wd) {
         super(wd);
     }
@@ -52,6 +54,7 @@ public class GroupHelper extends BaseHelper {
         initCreateGroup();
         fillGroupForm(group);
         submitGroupForm();
+        groupCache = null;
         returnToGroupsPage();
     }
 
@@ -60,12 +63,14 @@ public class GroupHelper extends BaseHelper {
         initGroupModification();
         fillGroupForm(group);
         submitGroupModify();
+        groupCache = null;
         returnToGroupsPage();
     }
 
     public void delete(GroupData group) {
         selectGroupById(group.getId());
         deleteSelectedGroup();
+        groupCache = null;
         returnToGroupsPage();
     }
 
@@ -73,17 +78,20 @@ public class GroupHelper extends BaseHelper {
         return isElementPresent(By.name("selected[]"));
     }
 
-    public int getCountGroup() {
+    public int count() {
         return findElements(By.cssSelector("span.group")).size();
     }
 
     public Groups all() {
-        Groups groups = new Groups();
+        if (groupCache != null) {
+            return new Groups(groupCache);
+        }
+        groupCache = new Groups();
         List<WebElement> elements = findElements(By.cssSelector("span.group"));
         for (WebElement element : elements) {
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            groups.add(new GroupData().withId(id).withName(element.getText()));
+            groupCache.add(new GroupData().withId(id).withName(element.getText()));
         }
-        return groups;
+        return new Groups(groupCache);
     }
 }

@@ -87,4 +87,8 @@ public class BaseHelper {
             return false;
         }
     }
+
+    protected void backToPage() {
+        wd.navigate().back();
+    }
 }

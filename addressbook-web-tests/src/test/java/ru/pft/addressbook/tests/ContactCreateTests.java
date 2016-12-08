@@ -25,6 +25,7 @@ public class ContactCreateTests extends TestBase {
                 .withByear("1977");
         app.contact().create(contact);
 
+        assertThat(app.contact().count(), equalTo(before.size() + 1));
         Contacts after = app.contact().all();
         assertThat(after, equalTo(before
                 .withAdded(contact.withId(after.stream().mapToInt(ContactData::getId).max().getAsInt()))));

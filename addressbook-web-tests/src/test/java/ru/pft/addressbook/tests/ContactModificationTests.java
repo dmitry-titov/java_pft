@@ -48,6 +48,7 @@ public class ContactModificationTests extends TestBase {
                 .withByear("1988");
         app.contact().modify(contact);
 
+        assertThat(app.contact().count(), equalTo(before.size()));
         Contacts after = app.contact().all();
         assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
     }
@@ -70,6 +71,7 @@ public class ContactModificationTests extends TestBase {
                 .withByear("1988");
         app.contact().modify(contact);
 
+        assertThat(app.contact().count(), equalTo(before.size()));
         Contacts after = app.contact().all();
         assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
     }
