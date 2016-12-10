@@ -67,7 +67,6 @@ public class ContactDataGenerator {
 
     private List<ContactData> generateContacts(int count) {
         List<ContactData> contacts = new ArrayList<>();
-        File photo = new File(photoSrc);
         for (int i = 0; i < count; i++) {
             Random random = new Random();
             int r = random.ints(1, 100).findFirst().getAsInt();
@@ -81,7 +80,7 @@ public class ContactDataGenerator {
                     .withBday("10")
                     .withBmonth("June")
                     .withByear("1994")
-                    .withPhoto(photo));
+                    .withPhotoPath(photoSrc));
         }
         return contacts;
     }

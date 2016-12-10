@@ -39,6 +39,8 @@ public class ContactHelper extends BaseHelper {
         selectOption(name("bday"), contactData.getBday());
         selectOption(name("bmonth"), contactData.getBmonth());
         type(name("byear"), contactData.getByear());
+        attach(name("photo"), contactData.getPhotoPath());
+
 
         if (getValue(findElements(xpath("//input[@type=\"submit\"]")).get(0)).equals("Enter")) {
             selectOption(name("new_group"), contactData.getGroup());

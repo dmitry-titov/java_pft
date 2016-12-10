@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -34,6 +35,19 @@ public class BaseHelper {
                 webElement.clear();
                 webElement.sendKeys(text);
             }
+        }
+    }
+
+    protected void attach(By locator, File file) {
+        if (file != null) {
+            findElement(locator).sendKeys(file.getAbsolutePath());
+        }
+    }
+
+    protected void attach(By locator, String path) {
+        if (path != null) {
+            File file = new File(path);
+            findElement(locator).sendKeys(file.getAbsolutePath());
         }
     }
 

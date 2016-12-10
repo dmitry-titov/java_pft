@@ -1,28 +1,57 @@
 package ru.pft.addressbook.model;
 
+import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+@XStreamAlias("contact")
 public class ContactData {
+    @XStreamOmitField
     private int id = Integer.MAX_VALUE;
+
+    @Expose
     private String firstName;
+
+    @Expose
     private String middleName;
+
+    @Expose
     private String lastName;
+
+    @Expose
     private String nickname;
+
+    @Expose
     private String mobilePhone;
+
     private String homePhone;
     private String workPhone;
+
+    @Expose
     private String email;
     private String email2;
     private String email3;
+
+    @Expose
     private String bday;
+
+    @Expose
     private String bmonth;
+
+    @Expose
     private String byear;
+
     private String allPhones;
     private String allEmails;
     private String address;
     private String fullName;
     private String group;
+
+    @Expose
+    private String photoPath;
 
     public String getFirstName() {
         return firstName;
@@ -94,6 +123,15 @@ public class ContactData {
 
     public String getGroup() {
         return group;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public ContactData withPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
+        return this;
     }
 
     public int getId() {
