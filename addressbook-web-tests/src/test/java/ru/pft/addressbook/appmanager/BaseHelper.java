@@ -47,6 +47,7 @@ public class BaseHelper {
     }
 
     protected WebElement findElement(By locator) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(locator));
         return wd.findElement(locator);
     }
 

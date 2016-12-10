@@ -8,9 +8,7 @@ import ru.pft.addressbook.model.Contacts;
 
 import java.util.List;
 
-import static org.openqa.selenium.By.cssSelector;
-import static org.openqa.selenium.By.name;
-import static org.openqa.selenium.By.xpath;
+import static org.openqa.selenium.By.*;
 import static org.testng.Assert.assertFalse;
 
 public class ContactHelper extends BaseHelper {
@@ -30,8 +28,13 @@ public class ContactHelper extends BaseHelper {
         type(name("middlename"), contactData.getMiddleName());
         type(name("lastname"), contactData.getLastName());
         type(name("nickname"), contactData.getNickname());
+        type(name("home"), contactData.getHomePhone());
         type(name("mobile"), contactData.getMobilePhone());
+        type(name("work"), contactData.getWorkPhone());
         type(name("email"), contactData.getEmail());
+        type(name("email2"), contactData.getEmail2());
+        type(name("email3"), contactData.getEmail3());
+        type(name("address"), contactData.getAddress());
 
         selectOption(name("bday"), contactData.getBday());
         selectOption(name("bmonth"), contactData.getBmonth());
@@ -160,5 +163,17 @@ public class ContactHelper extends BaseHelper {
             contactCache.add(contact);
         }
         return new Contacts(contactCache);
+    }
+
+    public ContactData details(ContactData contact) {
+        String details[] = findElement(By.id("content")).getText().replaceAll("[HMW:]", "").split("\n\n");
+        String firstPack[] = details[0].split("\n");
+
+        return new ContactData()
+                .withId(contact.getId())
+                .withFullName(firstPack[0])
+                .withAddress(firstPack[1])
+                .withAllPhones(details[1].replaceAll(" ", ""))
+                .withAllEmails(details[2]);
     }
 }

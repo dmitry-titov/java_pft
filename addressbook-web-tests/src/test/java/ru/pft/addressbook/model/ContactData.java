@@ -1,5 +1,8 @@
 package ru.pft.addressbook.model;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class ContactData {
     private int id = Integer.MAX_VALUE;
     private String firstName;
@@ -18,6 +21,7 @@ public class ContactData {
     private String allPhones;
     private String allEmails;
     private String address;
+    private String fullName;
     private String group;
 
     public String getFirstName() {
@@ -82,6 +86,10 @@ public class ContactData {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 
     public String getGroup() {
@@ -177,9 +185,37 @@ public class ContactData {
         return this;
     }
 
+    public ContactData withFullName(String fullName) {
+        this.fullName = fullName;
+        return this;
+    }
+
     public ContactData withGroup(String group) {
         this.group = group;
         return this;
+    }
+
+    public String mergePhones() {
+        return Arrays.asList(this.getHomePhone(), this.getMobilePhone(), this.getWorkPhone())
+                .stream().filter((s) -> s != null && !s.isEmpty())
+                .map(this::cleaned)
+                .collect(Collectors.joining("\n"));
+    }
+
+    public String mergeNames() {
+        return Arrays.asList(this.getFirstName(), this.getMiddleName(), this.getLastName())
+                .stream().filter((s) -> s != null && !s.isEmpty())
+                .collect(Collectors.joining(" "));
+    }
+
+    public String mergeEmails() {
+        return Arrays.asList(this.getEmail(), this.getEmail2(), this.getEmail3())
+                .stream().filter((s) -> s != null && !s.isEmpty())
+                .collect(Collectors.joining("\n"));
+    }
+
+    private String cleaned(String phone) {
+        return phone.replaceAll("\\s", "").replaceAll("[-()]", "");
     }
 
     @Override
