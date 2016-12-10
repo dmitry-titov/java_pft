@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="TestSuite" verbose="1">
+    <test name="Contacts">
+        <classes>
+            <class name="ru.pft.addressbook.tests.ContactCreateTests"/>
+            <class name="ru.pft.addressbook.tests.ContactModificationTests"/>
+            <class name="ru.pft.addressbook.tests.ContactMainPageInformationTests"/>
+            <class name="ru.pft.addressbook.tests.ContactDetailsInformationTests"/>
+            <class name="ru.pft.addressbook.tests.ContactDeleteTests"/>
+        </classes>
+    </test>
+</suite>
