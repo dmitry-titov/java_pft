@@ -54,8 +54,17 @@ public class BaseHelper {
     protected void selectOption(By locator, String text) {
         if (text != null) {
             Select select = new Select(findElement(locator));
-            if (!getValue(select.getFirstSelectedOption()).equals(text)) {
+            if (!getText(select.getFirstSelectedOption()).equals(text)) {
                 select.selectByVisibleText(text);
+            }
+        }
+    }
+
+    protected void selectOptionByValue(By locator, int value) {
+        if (value != 0) {
+            Select select = new Select(findElement(locator));
+            if (!getValue(select.getFirstSelectedOption()).equals(value)) {
+                select.selectByValue(String.valueOf(value));
             }
         }
     }
@@ -79,6 +88,10 @@ public class BaseHelper {
 
     protected String getValue(WebElement element) {
         return element.getAttribute("value");
+    }
+
+    protected String getText(WebElement element) {
+        return element.getText();
     }
 
     protected boolean isElementPresent(By locator) {

@@ -5,11 +5,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.pft.addressbook.model.ContactData;
 import ru.pft.addressbook.model.Contacts;
+import ru.pft.addressbook.model.GroupData;
 
 import java.util.List;
 
 import static org.openqa.selenium.By.*;
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 public class ContactHelper extends BaseHelper {
 
@@ -43,14 +45,17 @@ public class ContactHelper extends BaseHelper {
 
 
         if (getValue(findElements(xpath("//input[@type=\"submit\"]")).get(0)).equals("Enter")) {
-            selectOption(name("new_group"), contactData.getGroup());
+            if (contactData.getGroups().size() > 0) {
+                assertTrue(contactData.getGroups().size() == 1);
+                selectOption(name("new_group"), contactData.getGroups().iterator().next().getName());
+            }
         } else {
             assertFalse(isElementPresent(name("new_group")));
         }
     }
 
     public void returnToContactsPage() {
-        click(By.linkText("home page"));
+        click(By.cssSelector("div.msgbox a"));
     }
 
     public void selectById(int id) {
@@ -177,5 +182,37 @@ public class ContactHelper extends BaseHelper {
                 .withAddress(firstPack[1])
                 .withAllPhones(details[1].replaceAll(" ", ""))
                 .withAllEmails(details[2]);
+    }
+
+    public void addInGroup(ContactData contact, GroupData group) {
+        selectById(contact.getId());
+        selectGroupById(group.getId());
+        submitAddTo();
+        returnToContactsPage();
+    }
+
+    private void selectGroupById(int groupId) {
+        selectOptionByValue(name("to_group"), groupId);
+    }
+
+    private void submitAddTo() {
+        click(name("add"));
+        waitTextOnPage(By.cssSelector("div.msgbox"), "Users added");
+    }
+
+    public void removeFromGroup(ContactData contact, GroupData group) {
+        selectGroupFilterById(group.getId());
+        selectById(contact.getId());
+        submitRemoveFrom();
+        returnToContactsPage();
+    }
+
+    private void submitRemoveFrom() {
+        click(name("remove"));
+        waitTextOnPage(By.cssSelector("div.msgbox"), "Users removed");
+    }
+
+    private void selectGroupFilterById(int groupId) {
+        selectOptionByValue(name("group"), groupId);
     }
 }

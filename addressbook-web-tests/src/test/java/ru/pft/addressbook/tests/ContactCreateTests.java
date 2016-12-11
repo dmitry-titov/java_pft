@@ -3,10 +3,13 @@ package ru.pft.addressbook.tests;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.pft.addressbook.model.ContactData;
 import ru.pft.addressbook.model.Contacts;
+import ru.pft.addressbook.model.GroupData;
+import ru.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -53,6 +56,15 @@ public class ContactCreateTests extends TestBase {
         }
     }
 
+    @BeforeMethod
+    public void ensurePreconditions() {
+        if (app.db().groups().size() == 0) {
+            app.goTo().groupsPage();
+            app.group().create(new GroupData()
+                    .withName("test_group1").withHeader("test_group2").withFooter("test_group3"));
+        }
+    }
+
     @Test(dataProvider = "validContactsFromJson")
     public void contactCreateTestsFromJson(ContactData contact) {
         Contacts before = app.db().contacts();
@@ -63,6 +75,7 @@ public class ContactCreateTests extends TestBase {
         Contacts after = app.db().contacts();
         assertThat(after, equalTo(before
                 .withAdded(contact.withId(after.stream().mapToInt(ContactData::getId).max().getAsInt()))));
+        verifyContactListInUI();
     }
 
     @Test(dataProvider = "validContactsFromXml")
@@ -75,5 +88,30 @@ public class ContactCreateTests extends TestBase {
         Contacts after = app.db().contacts();
         assertThat(after, equalTo(before
                 .withAdded(contact.withId(after.stream().mapToInt(ContactData::getId).max().getAsInt()))));
+        verifyContactListInUI();
+    }
+
+    @Test
+    public void contactCreateTests() {
+        Contacts contacts = app.db().contacts();
+        Groups groups = app.db().groups();
+        app.goTo().newContactForm();
+        ContactData contact = new ContactData()
+                .withFirstName("testName")
+                .withMiddleName("testMiddleName")
+                .withLastName("testLastName")
+                .withNickname("testNickname")
+                .withMobile("89285681010")
+                .withEmail("test@test.com")
+                .withBday("7")
+                .withBmonth("April")
+                .withByear("1977")
+                .inGroup(groups.iterator().next());
+        app.contact().create(contact);
+        assertThat(app.contact().count(), equalTo(contacts.size() + 1));
+        Contacts after = app.db().contacts();
+        assertThat(after, equalTo(contacts
+                .withAdded(contact.withId(after.stream().mapToInt(ContactData::getId).max().getAsInt()))));
+        verifyContactListInUI();
     }
 }
