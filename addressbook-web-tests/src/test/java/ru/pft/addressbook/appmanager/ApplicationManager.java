@@ -20,6 +20,7 @@ public class ApplicationManager {
     private GroupHelper groupHelper;
     private ContactHelper contactHelper;
     private SessionHelper sessionHelper;
+    private DbHelper dbHelper;
     private String browser;
 
     public ApplicationManager(String browser) {
@@ -32,6 +33,8 @@ public class ApplicationManager {
         System.setProperty("webdriver.ie.driver", "IEDriverServer.exe");
         String target = System.getProperty("target", "local");
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
+
+        dbHelper = new DbHelper();
         switch (browser) {
             case BrowserType.CHROME:
                 wd = new ChromeDriver();
@@ -74,5 +77,9 @@ public class ApplicationManager {
 
     public SessionHelper getSessionHelper() {
         return sessionHelper;
+    }
+
+    public DbHelper db() {
+        return dbHelper;
     }
 }

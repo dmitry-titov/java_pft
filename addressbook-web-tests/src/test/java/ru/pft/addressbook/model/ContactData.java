@@ -3,54 +3,88 @@ package ru.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name = "addressbook")
 @XStreamAlias("contact")
 public class ContactData {
+    @Id
+    @Column(name = "id")
     @XStreamOmitField
     private int id = Integer.MAX_VALUE;
 
+    @Column(name = "firstname")
     @Expose
     private String firstName;
 
+    @Column(name = "middlename")
     @Expose
     private String middleName;
 
+    @Column(name = "lastname")
     @Expose
     private String lastName;
 
+    @Column(name = "nickname")
     @Expose
     private String nickname;
 
+    @Column(name = "mobile")
+    @Type(type = "text")
     @Expose
     private String mobilePhone;
 
+    @Column(name = "home")
+    @Type(type = "text")
     private String homePhone;
+
+    @Column(name = "work")
+    @Type(type = "text")
     private String workPhone;
 
     @Expose
+    @Column(name = "email")
+    @Type(type = "text")
     private String email;
+
+    @Transient
     private String email2;
+
+    @Transient
     private String email3;
 
+    @Transient
     @Expose
     private String bday;
 
+    @Transient
     @Expose
     private String bmonth;
 
+    @Transient
     @Expose
     private String byear;
 
+    @Transient
     private String allPhones;
+    @Transient
     private String allEmails;
+    @Transient
     private String address;
+    @Transient
     private String fullName;
+
+    @Transient
     private String group;
 
     @Expose
+    @Column(name = "photo")
+    @Type(type = "text")
     private String photoPath;
 
     public String getFirstName() {
@@ -198,6 +232,31 @@ public class ContactData {
         return this;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ContactData that = (ContactData) o;
+
+        if (id != that.id) return false;
+        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
+        if (mobilePhone != null ? !mobilePhone.equals(that.mobilePhone) : that.mobilePhone != null) return false;
+        return email != null ? email.equals(that.email) : that.email == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        return result;
+    }
+
     public ContactData withBmonth(String bmonth) {
         this.bmonth = bmonth;
         return this;
@@ -264,24 +323,4 @@ public class ContactData {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ContactData that = (ContactData) o;
-
-        if (id != that.id) return false;
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        return lastName != null ? lastName.equals(that.lastName) : that.lastName == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        return result;
-    }
 }
