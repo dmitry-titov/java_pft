@@ -84,5 +84,13 @@
     <orderEntry type="library" name="Gradle: mysql:mysql-connector-java:5.1.39" level="project" />
     <orderEntry type="library" name="Gradle: org.jboss.logging:jboss-logging:3.3.0.Final" level="project" />
     <orderEntry type="library" name="Gradle: org.jboss:jandex:2.0.3.Final" level="project" />
+    <orderEntry type="library" name="Gradle: biz.futureware.mantis:mantis-axis-soap-client:1.2.19" level="project" />
+    <orderEntry type="library" name="Gradle: axis:axis:1.4" level="project" />
+    <orderEntry type="library" name="Gradle: axis:axis-jaxrpc:1.4" level="project" />
+    <orderEntry type="library" name="Gradle: axis:axis-saaj:1.4" level="project" />
+    <orderEntry type="library" name="Gradle: axis:axis-wsdl4j:1.5.1" level="project" />
+    <orderEntry type="library" name="Gradle: commons-discovery:commons-discovery:0.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.axis:axis-jaxrpc:1.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.axis:axis-saaj:1.4" level="project" />
   </component>
 </module>
