@@ -29,7 +29,6 @@ public class RegistrationTests extends TestBase {
         String password = "password";
         app.registration().finish(confirmationLink, password);
         assertTrue(app.newSession().login(user, password));
-
     }
 
     @AfterMethod(alwaysRun = true)

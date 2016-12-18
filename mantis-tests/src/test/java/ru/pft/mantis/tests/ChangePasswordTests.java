@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.pft.mantis.model.MailMessage;
 import ru.pft.mantis.model.UserData;
+import ru.pft.mantis.model.UsersMantis;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -14,9 +15,23 @@ import java.util.List;
 import static org.testng.Assert.assertTrue;
 
 public class ChangePasswordTests extends TestBase {
+
     @BeforeMethod
-    public void startMailServer() {
+    public void startMailServer() throws IOException, MessagingException {
         app.mail().start();
+
+        String adminLogin = app.getProperty("web.adminLogin");
+        UsersMantis users = app.db().users();
+        if (users.size() == 1 && users.iterator().next().getUsername().equals(adminLogin)) {
+            long now = System.currentTimeMillis();
+            String email = String.format("user%s@localhost.localdomain", now);
+            String user = String.format("user%s", now);
+            app.registration().start(user, email);
+            List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);
+            String confirmationLink = findConfirmationLink(mailMessages, email);
+            String password = "password";
+            app.registration().finish(confirmationLink, password);
+        }
     }
 
     @Test
