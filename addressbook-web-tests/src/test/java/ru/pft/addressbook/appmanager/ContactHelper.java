@@ -58,6 +58,10 @@ public class ContactHelper extends BaseHelper {
         click(By.cssSelector("div.msgbox a"));
     }
 
+    public void returnToHomePage() {
+        click(By.linkText("home page"));
+    }
+
     public void selectById(int id) {
         click(findElement(cssSelector("input[value= '" + id + "']")));
     }
@@ -103,7 +107,7 @@ public class ContactHelper extends BaseHelper {
         fillContactForm(contactData);
         submitContactForm();
         contactCache = null;
-        returnToContactsPage();
+        returnToHomePage();
     }
 
     public void delete(ContactData contact) {
