@@ -1,0 +1,28 @@
+<list>
+    <contact>
+        <firstName>testNameGen 40</firstName>
+        <middleName>testMiddleNameGen 40</middleName>
+        <lastName>testLastNameGen 40</lastName>
+        <nickname>testNicknameGen 40</nickname>
+        <mobilePhone>89285681510</mobilePhone>
+        <email>testgen40@test.com</email>
+        <bday>10</bday>
+        <bmonth>June</bmonth>
+        <byear>1994</byear>
+        <photoPath>src/test/resources/res.jpg</photoPath>
+        <groups/>
+    </contact>
+    <contact>
+        <firstName>testNameGen 57</firstName>
+        <middleName>testMiddleNameGen 57</middleName>
+        <lastName>testLastNameGen 57</lastName>
+        <nickname>testNicknameGen 57</nickname>
+        <mobilePhone>89285681510</mobilePhone>
+        <email>testgen57@test.com</email>
+        <bday>10</bday>
+        <bmonth>June</bmonth>
+        <byear>1994</byear>
+        <photoPath>src/test/resources/res.jpg</photoPath>
+        <groups/>
+    </contact>
+</list>

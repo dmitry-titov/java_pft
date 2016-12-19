@@ -179,7 +179,7 @@ public class ContactHelper extends BaseHelper {
     public ContactData details(ContactData contact) {
         String details[] = findElement(By.id("content")).getText().replaceAll("[HMW:]", "").split("\n\n");
         String firstPack[] = details[0].split("\n");
-
+        backToPage();
         return new ContactData()
                 .withId(contact.getId())
                 .withFullName(firstPack[0])
