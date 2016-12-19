@@ -1,0 +1,38 @@
+[
+  {
+    "firstName": "testNameGen 27",
+    "middleName": "testMiddleNameGen 27",
+    "lastName": "testLastNameGen 27",
+    "nickname": "testNicknameGen 27",
+    "mobilePhone": "89285682710",
+    "email": "testgen27@test.com",
+    "bday": "10",
+    "bmonth": "June",
+    "byear": "1994",
+    "photoPath": "src/test/resources/res.jpg"
+  },
+  {
+    "firstName": "testNameGen 72",
+    "middleName": "testMiddleNameGen 72",
+    "lastName": "testLastNameGen 72",
+    "nickname": "testNicknameGen 72",
+    "mobilePhone": "89285682710",
+    "email": "testgen72@test.com",
+    "bday": "10",
+    "bmonth": "June",
+    "byear": "1994",
+    "photoPath": "src/test/resources/res.jpg"
+  },
+  {
+    "firstName": "testNameGen 83",
+    "middleName": "testMiddleNameGen 83",
+    "lastName": "testLastNameGen 83",
+    "nickname": "testNicknameGen 83",
+    "mobilePhone": "89285682710",
+    "email": "testgen83@test.com",
+    "bday": "10",
+    "bmonth": "June",
+    "byear": "1994",
+    "photoPath": "src/test/resources/res.jpg"
+  }
+]

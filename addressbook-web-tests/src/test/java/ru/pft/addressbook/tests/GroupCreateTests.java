@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 
 public class GroupCreateTests extends TestBase {
 
@@ -85,8 +86,8 @@ public class GroupCreateTests extends TestBase {
         app.group().create(group);
         assertThat(app.group().count(), equalTo(before.size()));
         Groups after = app.db().groups();
-        assertThat(after, equalTo(
-                before.withAdded(group.withId(after.stream().mapToInt(GroupData::getId).max().getAsInt()))));
+        assertThat(after, not(equalTo(
+                before.withAdded(group.withId(after.stream().mapToInt(GroupData::getId).max().getAsInt())))));
     }
 
 }

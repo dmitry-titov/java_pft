@@ -39,7 +39,7 @@ public class ApplicationManager {
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
 
         dbHelper = new DbHelper();
-        if ("" .equals(properties.getProperty("selenium.server"))) {
+        if ("".equals(properties.getProperty("selenium.server"))) {
             switch (browser) {
                 case BrowserType.CHROME:
                     wd = new ChromeDriver();
